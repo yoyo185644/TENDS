@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Train</title>
+    <link rel="stylesheet" href="static/plugins/bootstrap-3.4.1/css/bootstrap.min.css">
+    <style>
+        .background{
+             width: 750px;
+             border: 2px solid #dddddd;
+             height: 1000px;
+             margin-left: auto;
+             margin-right: auto;
+             margin-top: 10px;
+        }
+        .container-set{
+             height: 35px;
+             margin-left: auto;
+             margin-right: auto;
+             border-bottom:1px solid #D3D3D3
+        }
+
+        .header {
+           height: 30px;
+           display: flex;
+           align-items: center;
+           margin-left:10px;
+           font-family:"Times New Roman", Times, serif;
+           font-size: 16px;
+           color: #000;
+        }
+
+        .text-black{
+           height: 28px;
+           display: flex;
+           align-items: center;
+           font-family:"Times New Roman", Times, serif;
+           font-size: 14px;
+           color: #000;
+           margin-top:2px;
+           margin-bottom:2px;
+        }
+
+        .text-grey{
+           height: 28px;
+           display: flex;
+           align-items: center;
+           font-family:"Times New Roman", Times, serif;
+           font-size: 14px;
+           color: #CDC9C9;
+        }
+
+        .text-small-black{
+           height: 28px;
+           display: flex;
+           align-items: center;
+           font-family:"Times New Roman", Times, serif;
+           font-size: 14px;
+           color: #000;
+        }
+
+
+
+        .custom-file-upload {
+           border: 1px solid #ccc;
+           display: inline-block;
+           padding: 3px；
+           cursor: pointer;
+           font-size: 12px;
+           color: #CDC9C9;
+           }
+
+        .custom-card {
+             margin-top: 15px;
+             margin-bottom: 15px;
+             border: 1px solid grey;
+             background-color: white;
+             width: 300px;
+             height: 100px;
+             overflow: auto;
+         }
+
+        .small-button {
+           padding: 5px 5px;
+           font-size: 10px;
+           line-height: 1.5;
+        }
+.centered {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.btn-primary{
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+}
+
+.btn-outline-primary{
+    color: #337ab7;
+    background-color: #fff;
+    border-color: #ddd;
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active{
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .slider.round {
+            border-radius: 34px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .start-train-container {
+        margin-top: 20px;
+        transform: translateX(-14px);
+        }
+    </style>
+</head>
+<body>
+<div class="background">
+    <div class="container-set">
+        <div class="header">Train Setting</div>
+    </div>
+    <div class="container">
+        <div class="text-black">Database selection</div>
+    </div>
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Database selection</div>
+        </div>
+        <div class="col-md-10">
+            <div>
+                <label for="upload" class="custom-file-upload">choose file</label>
+                <input id="upload" type="file" style="display:none"/>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="text-black">Model selection</div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Model Classification</div>
+        </div>
+        <div class="col-md-10">
+            <div class="dropdown">
+                <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    bottom
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    ...
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Model Choose</div>
+        </div>
+        <div class="col-md-10">
+            <div class="dropdown">
+                <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    bottom
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dLabel">
+                    ...
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Selected Models</div>
+        </div>
+        <div class="col-md-10">
+            <div class="card custom-card">
+                <div class="card-body">
+                    <!-- -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-black">Training configuration</div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Train batch size Settings</div>
+        </div>
+        <div class="col-md-10">
+            <div style="display: flex; align-items: center;">
+                <div class="text-small-black">The amount of training data constitutes the original data's</div>
+                <div class="dropdown">
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        bottom
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        ...
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Missing Mechanism</div>
+        </div>
+        <div class="col-md-10">
+            <div style="display: flex; align-items: center;">
+                <div class="text-small-black">The missing mechanism of training data is</div>
+                <div style="display: flex; justify-content: space-between;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                               value="option1" checked>
+                        <label class="form-check-label " for="exampleRadios1">
+                            MCAR
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                               value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            MAR
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3"
+                               value="option3">
+                        <label class="form-check-label" for="exampleRadios3">
+                            MNAR
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Missing Rate Settings</div>
+        </div>
+        <div class="col-md-10">
+            <div style="display: flex; align-items: center;">
+                <div class="text-small-black">The rate of missing data constitutes the original data's</div>
+                <div class="dropdown">
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        bottom
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        ...
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">automatic parameter setting</div>
+        </div>
+        <div class="col-md-10">
+            <div style="display: flex; align-items: center;">
+                <div class="text-small-black">Whether to enable automatic parameter setting</div>
+                <div style="display: flex; justify-content: space-between;">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                               value="option1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                               value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
+                            No
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="centered">
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-default btn-outline-primary">Cancel</button>
+        </div>
+    </div>
+
+    <div class="container-set">
+        <div class="header">Train Processing</div>
+    </div>
+<div class="container start-train-container">
+    <div class="col-md-2">
+        <div class="text-black">Start Train</div>
+    </div>
+    <div class="col-md-10">
+        <label class="toggle">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
+    </div>
+</div>
+    <div class="container">
+        <div class="text-black">Start Details</div>
+    </div>
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Training state</div>
+        </div>
+        <div class="col-md-10">
+            <div class="text-small-black">In operation</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Executed time</div>
+        </div>
+        <div class="col-md-10">
+            <div class="text-small-black">time</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-md-2">
+            <div class="text-grey">Number of trained models</div>
+        </div>
+        <div class="col-md-10">
+            <div class="text-small-black">5/10</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-black">Train Result</div>
+    </div>
+
+    <div class="panel panel-default" style="border: none;">
+        <table class="table" style="width: 50%; margin: auto; padding: 10px; font-size: 0.8em; border: none;">
+            <thead>
+            <tr>
+                <th style="width: 33%;">Model</th>
+                <th style="width: 33%;">RMS</th>
+                <th style="width: 33%;">MAE</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="width: 33%;">MCAR</td>
+                <td style="width: 33%;"></td>
+                <td style="width: 33%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 33%;">DeepMVI</td>
+                <td style="width: 33%;"></td>
+                <td style="width: 33%;"></td>
+            </tr>
+            <tr>
+                <td style="width: 33%;">TRMF</td>
+                <td style="width: 33%;"></td>
+                <td style="width: 33%;"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+<script src="static/plugins/jquery-3.7.1.min.js"></script>
+<script src="static/plugins/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('upload').addEventListener('change', function() {
+          var fileName = this.files[0].name;
+          document.querySelector('.custom-file-upload').innerText = `File Chosen: ${fileName}`;
+    });
+</script>
+</body>
+</html>

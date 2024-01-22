@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Impute</title>
+    <script src="static/plugins/echarts.min.js"></script>
+    <link rel="stylesheet" href="static/plugins/bootstrap-3.4.1/css/bootstrap.min.css">
+</head>
+<style>
+    body {
+        background-color: #F5F5F5;
+    }
+     .container-set{
+              height: 40px;
+              margin-left: auto;
+              margin-right: auto;
+              margin-bottom: 5px;
+              border-bottom:1px solid #D3D3D3;
+              background-color: white;
+              width: 100%;
+              margin-bottom: 5px;
+              display: flex;
+              align-items: center;
+     }
+     .header {
+            margin-left:15px;
+            font-family:"Times New Roman", Times, serif;
+            font-size: 16px;
+            color: #000;
+            font-weight: bold;
+         }
+
+     .panel {
+             margin: 3px 3px;
+             padding: 20px;
+             background-color: #fff;
+             border: 1px solid #ddd;
+             border-radius: 4px;
+         }
+     .panel-bottom {
+         margin-top: 10px;
+     }
+     .column-custom {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+    .text-black{
+            height: 28px;
+            display: flex;
+            align-items: center;
+            font-family:"Times New Roman", Times, serif;
+            font-size: 14px;
+            color: #000;
+            margin-top:2px;
+            margin-bottom:2px;
+            font-weight: bold;
+         }
+     .text-grey{
+            height: 28px;
+            display: flex;
+            align-items: center;
+            font-family:"Times New Roman", Times, serif;
+            font-size: 14px;
+            color: #CDC9C9;
+            font-weight: bold;
+         }
+     .text-grey-small{
+            height: 28px;
+            display: flex;
+            align-items: center;
+            font-family:"Times New Roman", Times, serif;
+            font-size: 14px;
+            color: #CDC9C9;
+         }
+
+     .text-blue-small{
+            height: 28px;
+            display: flex;
+            align-items: center;
+            font-family:"Times New Roman", Times, serif;
+            font-size: 14px;
+            color: #4876FF;
+         }
+
+    .adjust-align {
+    margin-left: -28px;
+     }
+
+    .toggle {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+        }
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        .slider.round {
+            border-radius: 34px;
+        }
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    .box{
+            width: 700px;
+            height: 320px;
+        }
+
+</style>
+<body>
+<div class="container-set">
+    <div class="header">Task details</div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- 左侧两个面板 -->
+        <div class="col-md-4 column-custom">
+            <!-- 左边上面的面板 -->
+            <div class="panel" style="height: 285px;">
+                <div class="text-black">Task Setting</div>
+                <div class="text-grey">Imputation Task</div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Imputation Model Choose</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="dropdown">
+                            <button id="dLabel1" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                bottom
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                ...
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="text-grey">Predicton Task</div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Prediction Model Choose</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="dropdown">
+                            <button id="dLabel2" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                bottom
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                ...
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Predict data batch size</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="dropdown">
+                            <button id="dLabel3" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                bottom
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                                ...
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="text-black">Start Task</div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Click Start Task</div>
+                    </div>
+                    <div class="col-md-10">
+                        <label class="toggle">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <!-- 左边下面的面板 -->
+            <div class="panel panel-bottom" style="height: 450px;">
+                <div class="text-black">Task details</div>
+                <div class="text-grey">Imputation Task</div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Task status</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="text-blue-small adjust-align">Run complete</div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Executed time</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="text-blue-small adjust-align">Time</div>
+                    </div>
+                </div>
+                <div class="text-grey">Prediction Task</div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Task status</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="text-blue-small adjust-align">In operation</div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="col-md-2">
+                        <div class="text-grey-small adjust-align">Executed time</div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="text-blue-small adjust-align">Time</div>
+                    </div>
+                </div>
+                <div class="text-black">Timeline</div>
+
+
+            </div>
+        </div>
+        <!-- 右边的面板 -->
+        <div class="col-md-8 column-custom">
+            <div class="panel " style="height: 745px;">
+                <div class="text-black">Ongoing task</div>
+                <div class="container">
+                    <div class="col-md-1">
+                        <div class="text-blue-small adjust-align">Stop task</div>
+                    </div>
+                    <div class="col-md-11">
+                        <label class="toggle">
+                            <input type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="text-black">Ongoing task</div>
+                <div class="container">
+                    <button type="button" class="btn btn-default btn-xs">Last 24 hours</button>
+                    <button type="button" class="btn btn-default btn-xs">Last 3 days</button>
+                    <button type="button" class="btn btn-default btn-xs">Last 1 week</button>
+                </div>
+
+                <div class="box"></div>
+
+                <div class="text-black">Ongoing task</div>
+                <div class="container">
+                    <button type="button" class="btn btn-default btn-xs">Imputation Data</button>
+                    <button type="button" class="btn btn-default btn-xs">Prediction Data</button>
+                    <button type="button" class="btn btn-default btn-xs">Abnormal data</button>
+                </div>
+                <div class="container" style="max-width: 600px;">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="disabled">
+                          <span>
+                          <span aria-hidden="true">&laquo;</span>
+                          </span>
+                        </li>
+                        <li class="active">
+                            <span>1 <span class="sr-only">(current)</span></span>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var myChart = echarts.init(document.querySelector('.box'));
+    function randomData() {
+  now = new Date(+now + oneDay);
+  value = value + Math.random() * 21 - 10;
+  return {
+    name: now.toString(),
+    value: [
+      [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+      Math.round(value)
+    ]
+  };
+}
+let data = [];
+let now = new Date(1997, 9, 3);
+let oneDay = 24 * 3600 * 1000;
+let value = Math.random() * 1000;
+for (var i = 0; i < 1000; i++) {
+  data.push(randomData());
+}
+option = {
+  title: {
+    text: ''
+  },
+  tooltip: {
+    trigger: 'axis',
+    formatter: function (params) {
+      params = params[0];
+      var date = new Date(params.name);
+      return (
+        date.getDate() +
+        '/' +
+        (date.getMonth() + 1) +
+        '/' +
+        date.getFullYear() +
+        ' : ' +
+        params.value[1]
+      );
+    },
+    axisPointer: {
+      animation: false
+    }
+  },
+  xAxis: {
+    type: 'time',
+    splitLine: {
+      show: false
+    }
+  },
+  yAxis: {
+    type: 'value',
+    boundaryGap: [0, '100%'],
+    splitLine: {
+      show: false
+    }
+  },
+  series: [
+    {
+      name: 'Fake Data',
+      type: 'line',
+      showSymbol: false,
+      data: data
+    }
+  ]
+};
+setInterval(function () {
+  for (var i = 0; i < 5; i++) {
+    data.shift();
+    data.push(randomData());
+  }
+  myChart.setOption({
+    series: [
+      {
+        data: data
+      }
+    ]
+  });
+}, 1000);
+    myChart.setOption(option);
+</script>
+
+<script src="static/plugins/jquery-3.7.1.min.js"></script>
+<script src="static/plugins/bootstrap-3.4.1/js/bootstrap.min.js"></script>
+
+</body>
+</html>
