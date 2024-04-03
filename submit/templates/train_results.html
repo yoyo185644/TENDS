@@ -1,0 +1,35 @@
+<div class="container" style="width: 760px;margin-left: -15px" id="train-results-table">
+    <div class="panel panel-default">
+        <table class="table" style="font-size: 23px;">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Dataset</th>
+                <th>Model</th>
+                <th>Time</th>
+                <th>Accuracy</th>
+                <th>Precision</th>
+                <th>SMAPE</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in queryset %}
+                <tr>
+                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.dataset }}</td>
+                    <td>{{ obj.model }}</td>
+                    <td>{{ obj.time|date:"H:i:s" }}</td>
+                    <td>{{ obj.accuracy|floatformat:2 }}</td>
+                    <td>{{ obj.precision|floatformat:2 }}</td>
+                    <td>{{ obj.SMAPE|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="clearfix" style="margin-top:-38px ">
+        <ul class="pagination">
+            {{ page_string }}
+        </ul>
+    </div>
+</div>

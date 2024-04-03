@@ -1,0 +1,39 @@
+<div class="text-center"
+     style="flex: 1;position: relative;margin-left: -30px; display: flex;flex-direction: column;width: 300px;" id="impute-results-table">
+    <div style="flex: 1">
+        <table id="table_wrong_info" class="table table-hover"
+               style="table-layout: fixed;background-color: #F8F8F8; font-size: 13px; color: rgba(128, 128, 128, 1); font-weight: 400;">
+            <thead>
+            <tr class="form-group" style="color: #000;">
+                <th class="col-sm-2 text-center text-grey-small"
+                    style="font-size: 16px; font-weight: 600;">ID
+                </th>
+                <th class="col-sm-3 text-center text-grey-small"
+                    style="font-size: 16px; font-weight: 600;">Times
+                </th>
+                <th class="col-sm-3 text-center text-grey-small"
+                    style="font-size: 16px; font-weight: 600;">Variable
+                </th>
+                <th class="col-sm-3 text-center text-grey-small"
+                    style="font-size: 16px; font-weight: 600;">Impute
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in queryset1 %}
+                <tr>
+                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.time }}</td>
+                    <td>{{ obj.variable }}</td>
+                    <td>{{ obj.Imputed_value|floatformat:2 }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="clearfix" style="margin-top:-38px;transform: scale(0.7); transform-origin: left top; ">
+            <ul class="pagination pagination1">
+                {{ page_string1 }}
+            </ul>
+        </div>
+    </div>
+</div>

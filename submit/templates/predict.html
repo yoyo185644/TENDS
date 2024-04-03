@@ -1,0 +1,271 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Impute</title>
+    <script src="{% static 'plugins/echarts.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.4.1/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/predict.css' %}">
+</head>
+<style>
+    body {
+        background-color: #F5F5F5;
+        width: 1470px;
+        height: 846px;
+    }
+</style>
+<body>
+
+<div class="container-set">
+    <div class="header">TSMS</div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- 左侧面板 -->
+        <div class="col-md-3 column-custom">
+            <!-- 左上任务设置面板  -->
+            <div class="panel" style="height: 300px;">
+
+                <div style="display: flex;">
+                    <span style="font-size:26px;margin-top: 3px" class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    <span class="text-black" style="margin-left:5px">Task Setting</span>
+                </div>
+
+                <!--补全任务设置-->
+                <div class="container" style="width: 100%;margin-top: 16px">
+                    <div class="col-md-7">
+                        <div class="text-grey-small adjust-align">Imputation Model</div>
+                    </div>
+
+                    <!--补全模型选择模块-->
+                    <div class="col-md-5">
+                        <div class="dropdown">
+                            <button id="ImputeModel" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                Model
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="ImputeModelSelect" class="dropdown-menu" aria-labelledby="ImputeModel">
+                                 <!-- 模型选项由JavaScript动态填充.-->
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--预测任务设置-->
+                <div class="container" style="width: 100%;margin-top: 6px">
+                    <div class="col-md-7">
+                        <div class="text-grey-small adjust-align">Prediction Model</div>
+                    </div>
+
+                    <!--预测模型选择模块-->
+                    <div class="col-md-5">
+                        <div class="dropdown">
+                            <button id="PredictModel" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                Model
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="PredictModelSelect" class="dropdown-menu" aria-labelledby="PredictModel">
+                                 <!-- 模型选项由JavaScript动态填充.-->
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--预测数据大小设置-->
+                <div class="container" style="width: 100%;margin-top: 5px;">
+                    <div class="col-md-8">
+                        <div class="text-grey-small adjust-align">Predict Window Size</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="dropdown">
+                            <button id="BtnPredictWindowSize" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                   10%
+                                <span class="caret"></span>
+                            </button>
+                            <ul id="PredictWindowSize" class="dropdown-menu" aria-labelledby="dLabel">
+                                <li><a class="dropdown-item" href="#">10%</a></li>
+                                <li><a class="dropdown-item" href="#">20%</a></li>
+                                <li><a class="dropdown-item" href="#">30%</a></li>
+                                <li><a class="dropdown-item" href="#">40%</a></li>
+                                <li><a class="dropdown-item" href="#">50%</a></li>
+                                <li><a class="dropdown-item" href="#">60%</a></li>
+                                <li><a class="dropdown-item" href="#">70%</a></li>
+                                <li><a class="dropdown-item" href="#">80%</a></li>
+                                <li><a class="dropdown-item" href="#">90%</a></li>
+                                <li><a class="dropdown-item" href="#">100%</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!--保存任务设置模块-->
+                <div style="display: flex;margin-top: 18px">
+                    <span style="font-size:26px;margin-top: 3px" class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    <span class="text-black" style="margin-left:5px">Save Task</span>
+                </div>
+                <div class="container" style="width: 100%;margin-top: 14px">
+                    <div class="col-md-8">
+                        <div class="text-grey-small adjust-align">Click Save Task</div>
+                    </div>
+
+                    <!--按钮点击保存任务-->
+                    <div class="col-md-4">
+                        <button class="btn btn-default" id="TaskSaveToggle" type="submit">Save</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 左边下面的面板 -->
+            <div class="panel panel-bottom" style="height: 460px;">
+
+                <!--开始任务滑块模块-->
+                <div style="display: flex;margin-top: 5px">
+                    <span style="font-size:26px;margin-top: 3px" class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                    <span class="text-black" style="margin-left:5px">Task Control</span>
+                </div>
+                <div class="container" style="width: 100%;margin-top: 12px">
+                    <div class="col-md-8">
+                        <div class="text-grey-small adjust-align">Click Start / Stop Task</div>
+                    </div>
+
+                    <!--滑动框点击开始任务-->
+                    <div class="col-md-4">
+                        <label class="toggle">
+                            <input id="taskToggle" type="checkbox">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!--任务详情模块-->
+
+                <div style="display: flex;margin-top: 15px">
+                    <span style="font-size:26px;margin-top: 3px" class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    <span class="text-black" style="margin-left:5px">Task Details</span>
+                </div>
+
+                <div class="text-grey" style="margin-top: 15px">Prediction Task</div>
+                <div class="container" style="width: 100%;margin-top: 7px">
+                    <div class="col-md-8">
+                        <div  class="text-grey-small adjust-align">Task status</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="Status" class="text-blue-small adjust-align">Not started</div>
+                    </div>
+                </div>
+                <div class="container" style="width: 100%;margin-top: 5px">
+                    <div class="col-md-8">
+                        <div class="text-grey-small adjust-align">Executed time</div>
+                    </div>
+                    <div class="col-md-4">
+                        <div id="TaskTime" class="text-blue-small adjust-align">00:00:00</div>
+                    </div>
+                </div>
+
+                <!--时间轴模块-->
+                <div style="display: flex;margin-top: 20px">
+                    <span style="font-size:26px;margin-top: 3px" class="glyphicon glyphicon-time"
+                          aria-hidden="true"></span>
+                    <span class="text-black" style="margin-left:5px">Timeline</span>
+                </div>
+
+                <div class="container" style="width: 100%; margin-top: 25px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;margin-left: 5px">
+                            <span id="click-trigger" style="font-size:30px;" class="glyphicon glyphicon-record"></span>
+                            <p class="text-grey-small adjust-align" style="margin-top: 10px;margin-left: 2px">Click Trigger</p>
+                        </div>
+                        <hr style="width: 20%; border: 1px solid black;margin-top: -30px;margin-left: -27px;">
+                        <div style="display: flex;flex-direction: column; align-items: center; justify-content: center;">
+                            <span id="predict" style="font-size:30px; margin-left:-138px;" class="glyphicon glyphicon-record"></span>
+                            <p class="text-grey-small adjust-align" style=" margin-left:-130px;margin-top: 10px">Predict</p>
+                        </div>
+                        <hr style="width: 20%; border: 1px solid black;margin-top: -30px;margin-left: -38px">
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                            <span id="finished" style="font-size:30px;margin-left: -145px;" class="glyphicon glyphicon-record"></span>
+                            <p class="text-grey-small adjust-align" style=" margin-left:-130px;margin-top: 10px">Finished</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 中间面板 -->
+        <div class="col-md-6 column-custom">
+            <!-- 表 -->
+            <div class="panel " style="height: 355px;">
+                <div class="text-black">Ongoing Task</div>
+                <!-- 动态折线图 -->
+                 <div class="box"></div>
+            </div>
+
+            <!-- 结果 -->
+            <div class="panel " style="height: 440px;">
+                <div class="text-black">Task Result</div>
+                <div class="container" style="width: 100%">
+                    <div class="col-md-5">
+                        <div class="text-grey" style="margin-top: 3px;margin-left: -20px">Imputation Statistics</div>
+                        {% include "impute_results.html" %}
+                    </div>
+                    <div class="col-md-7">
+                        <div class="text-grey" style="margin-top: 3px;margin-left: 27px">Anomaly Statistics</div>
+                        {% include "Anomaly_results.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 column-custom">
+            <div class="panel " style="height: 760px;">
+                <div style="width:100%;height: 400px;" id="missing_rate_chart">
+                </div>
+                <div style="width:100%;height: 400px;" id="anomaly_rate_chart">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- detail 对话框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Anomaly Analysis</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formAdd">
+                    <div class="clearfix">
+                        <div class="form-group">
+                        <label for="analysisInput">Analysis</label>
+                        <input type="text" class="form-control" id="analysisInput" name="analysis" placeholder="Enter analysis">
+                    </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
+                <button id="btnSave" type="button" class="btn btn-primary">save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static "plugins/jquery-3.7.1.min.js" %}"></script>
+<script src="{% static "plugins/bootstrap-3.4.1/js/bootstrap.min.js" %}"></script>
+<script src="{% static 'plugins/echarts.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/impute.js' %}"></script>
+
+</body>
+</html>
