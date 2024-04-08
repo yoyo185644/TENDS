@@ -1,5 +1,5 @@
 ### TENDS: A Time Series Management System based on Model Selection
-### Please check the 'master' branck
+### Please check the 'master' branch
 
 This repository contains the frontend source code and portions of the backend code for TENDS, as featured in the paper "A Demonstration of TENDS: Time Series Management System based on Model Selection".
 
